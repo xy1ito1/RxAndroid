@@ -1,4 +1,4 @@
-package com.hnkeystone.rxandroid.http;
+package com.hnkeystone.rxandroid.library.http;
 
 import java.util.Map;
 
@@ -25,7 +25,10 @@ import retrofit2.http.QueryMap;
  *********************************************/
 public interface APIService {
 
-    public static final String BASE_URL = "https://rcapi.zhengzhou.gov.cn/";
+    //    public static final String BASE_URL = "https://rcapi.zhengzhou.gov.cn/";
+//    public static final String BASE_URL = "http://192.168.1.51:8080/";
+    public static final String BASE_URL = "http://192.168.1.100:8000/";
+
 
     /**
      * @param user
@@ -35,8 +38,8 @@ public interface APIService {
     Observable<Model> listRepos(@Path("user") String user, @Path("id") String id);
 
     @Multipart
-    @POST("organization/uploadAvator.do")
-    Call<Model> upload(@Part MultipartBody.Part file);
+    @POST("wisdomZZInter/login/uploadApk.do")
+    Observable<ResponseBody> upload(@Part MultipartBody.Part file);
 
     /**
      * 适用于多文件
@@ -50,4 +53,7 @@ public interface APIService {
 
     @POST("inter/talents/opinionMessage.do")
     Observable<ResponseBody> opinionMessage(@QueryMap Map<String, String> map);
+
+    @GET("/file/app/智汇郑州服务/app-release.apk")
+    Call<ResponseBody> down();
 }

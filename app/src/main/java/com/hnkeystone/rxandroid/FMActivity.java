@@ -8,9 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.hnkeystone.rxandroid.http.APIService;
-import com.hnkeystone.rxandroid.http.RetrofitUtils;
+import com.blankj.utilcode.util.SDCardUtils;
+import com.hnkeystone.rxandroid.library.http.APIService;
+import com.hnkeystone.rxandroid.library.http.RetrofitUtils;
+import com.hnkeystone.rxandroid.library.upload.ProgressListener;
+import com.hnkeystone.rxandroid.library.upload.UploadUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +90,7 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
 //                    }
 //                });
 
+        //点击
         progress2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +136,7 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
         });
 
 
+        //简单用法
 //        RetrofitUtils.getInstance().getService(APIService.class).listRepos("张三", "111")//获取Observable对象
 //                .subscribeOn(Schedulers.io())//请求在新的线程中执行
 //                .doOnNext(new Consumer<Model>() {
@@ -176,39 +182,78 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
 //                    }
 //                });
 
+        //上传文件
+        List<String> sdCardPaths = SDCardUtils.getSDCardPaths();
+        File file = new File(sdCardPaths.get(0) + File.separator + "123.apk");
+        UploadUtils.upload("wisdomZZInter/login/uploadApk.do", file, new ProgressListener<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String string = responseBody.string();
+                    LogUtils.d(string);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onProgress(long currentBytes, long contentLength, boolean isDone) {
+                LogUtils.d(contentLength + "+++++++" + contentLength + "+++++++" + isDone);
+            }
+        });
+
+
+        //下载文件
 //        List<String> sdCardPaths = SDCardUtils.getSDCardPaths();
-//        File file = new File(sdCardPaths.get(0) + File.separator + "123.jpg");
-//
-//        ProgressCallBack progressCallBack = new ProgressCallBack() {
+//        File file = new File(sdCardPaths.get(0) + File.separator + "123.apk");
+//        new DownloadUtils("http://192.168.1.51:8080", new DownloadListener() {
 //            @Override
-//            public void onLoading(final long total, final long progress) {
-////                LogUtils.d(total + "---" + progress);
+//            public void onStartDownload() {
 //
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        progress2.setText(total / 1024 + "===" + progress);
-//                    }
-//                });
-//            }
-//        };
-//
-//        MultipartBody.Part singleFile = MultipartUtils.getSingleFile(file, progressCallBack);
-//        RetrofitUtils.getInstance().getService(APIService.class).upload(singleFile).enqueue(new Callback<Model>() {
-//            @Override
-//            public void onResponse(Call<Model> call, Response<Model> response) {
-//
-//                Thread thread = Thread.currentThread();
-//                Looper mainLooper = Looper.getMainLooper();
-//
-//                LogUtils.d(thread.getName() + "===" + mainLooper.toString());
-//
-//                Model body1 = response.body();
-//                LogUtils.d(body1);
 //            }
 //
 //            @Override
-//            public void onFailure(Call<Model> call, Throwable t) {
+//            public void onProgress(int progress) {
+//                LogUtils.d(progress);
+//            }
+//
+//            @Override
+//            public void onFinishDownload() {
+//
+//            }
+//
+//            @Override
+//            public void onFail(String errorInfo) {
+//
+//            }
+//        }).download("/file/app/智汇郑州服务/app-release.apk", file.getPath(), new Observer<File>() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(File file) {
+//                LogUtils.d(file.getAbsolutePath());
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onComplete() {
 //
 //            }
 //        });

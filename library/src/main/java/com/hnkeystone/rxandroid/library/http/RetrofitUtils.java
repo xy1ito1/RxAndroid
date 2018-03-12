@@ -1,4 +1,4 @@
-package com.hnkeystone.rxandroid.http;
+package com.hnkeystone.rxandroid.library.http;
 
 import android.app.Application;
 import android.content.Context;
@@ -56,8 +56,8 @@ public class RetrofitUtils {
      */
     private Converter.Factory factory = GsonConverterFactory.create();
 
-    private static final int TIMEOUT_READ = 25;
-    private static final int TIMEOUT_CONNECTION = 25;
+    private static final int TIMEOUT_READ = 20;
+    private static final int TIMEOUT_CONNECTION = 20;
 
     private static final int NETWORK_NO = 0;
 
@@ -101,8 +101,8 @@ public class RetrofitUtils {
                         Request original = chain.request();
                         Request.Builder requestBuilder = original.newBuilder();
                         if (headers != null)
-                        //获取手机UA信息
-                        requestBuilder.header("User-Agent", getUserAgent());
+                            //获取手机UA信息
+                            requestBuilder.header("User-Agent", getUserAgent());
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
                     }
@@ -110,10 +110,11 @@ public class RetrofitUtils {
                 //拦截日志
                 .addInterceptor(loggingInterceptor)
                 //失败重连
-                .retryOnConnectionFailure(true)
+                .retryOnConnectionFailure(false)
+                .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
                 //time out
                 .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
-                .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT_READ, TimeUnit.SECONDS)//20s写入超时
                 .build();
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
@@ -242,5 +243,4 @@ public class RetrofitUtils {
         }
         return context;
     }
-
 }

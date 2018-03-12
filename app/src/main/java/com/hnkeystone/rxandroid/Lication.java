@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
-import com.hnkeystone.rxandroid.http.RetrofitUtils;
+import com.hnkeystone.rxandroid.library.http.RetrofitUtils;
 
 /*********************************************
  ***      Copyright (C) 2017               
