@@ -13,7 +13,7 @@ import io.reactivex.observers.DefaultObserver;
 
 public abstract class ProgressListener<T> extends DefaultObserver<T> {
 
-    public void onProgress(long currentBytes, long contentLength, boolean isDone) {
+    public void onProgress(ProgressModel progressModel) {
 
     }
 

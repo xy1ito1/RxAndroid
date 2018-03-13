@@ -41,7 +41,7 @@ public class ProgressRequestBody extends RequestBody {
                 case UPDATE:
                     ProgressModel progressModel = (ProgressModel) msg.obj;
                     if (mListener != null)
-                        mListener.onProgress(progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel.isDone());
+                        mListener.onProgress(progressModel);
                     break;
             }
         }
@@ -54,7 +54,12 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public long contentLength() throws IOException {
-        return requestBody.contentLength();
+        try {
+            return requestBody.contentLength();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     @Override
@@ -89,9 +94,12 @@ public class ProgressRequestBody extends RequestBody {
             //增加当前写入的字节数
             bytesWritten += byteCount;
             //回调
-            Message msg = Message.obtain();
+            Message msg = myHandler.obtainMessage();
             msg.what = UPDATE;
-            msg.obj = new ProgressModel(bytesWritten, contentLength, bytesWritten == contentLength);
+            ProgressModel progressModel = new ProgressModel();
+            progressModel.setCurrentBytes(bytesWritten);
+            progressModel.setContentLength(contentLength);
+            msg.obj = progressModel;
             myHandler.sendMessage(msg);
         }
     }

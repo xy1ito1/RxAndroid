@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.SDCardUtils;
 import com.hnkeystone.rxandroid.library.http.APIService;
 import com.hnkeystone.rxandroid.library.http.RetrofitUtils;
 import com.hnkeystone.rxandroid.library.upload.ProgressListener;
+import com.hnkeystone.rxandroid.library.upload.ProgressModel;
 import com.hnkeystone.rxandroid.library.upload.UploadUtils;
 
 import java.io.File;
@@ -54,7 +55,6 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fl1, new FL1Fragment());
         fragmentTransaction.add(R.id.fl2, new FL2Fragment());
-        fragmentTransaction.commit();
 
         Observable.just(2, 4, 1, 3)
                 .delaySubscription(5, TimeUnit.SECONDS)
@@ -207,8 +207,9 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
             }
 
             @Override
-            public void onProgress(long currentBytes, long contentLength, boolean isDone) {
-                LogUtils.d(contentLength + "+++++++" + contentLength + "+++++++" + isDone);
+            public void onProgress(ProgressModel progressModel) {
+                LogUtils.d(progressModel.getCurrentBytes() + "-------" + progressModel.getContentLength() + "-------" + progressModel.getProgress());
+//                LogUtils.d(contentLength + "+++++++" + contentLength + "+++++++" + isDone);
             }
         });
 
