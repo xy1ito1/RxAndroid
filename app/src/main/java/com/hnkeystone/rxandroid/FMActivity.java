@@ -185,7 +185,7 @@ public class FMActivity extends AppCompatActivity implements FGinterfae {
         //上传文件
         List<String> sdCardPaths = SDCardUtils.getSDCardPaths();
         File file = new File(sdCardPaths.get(0) + File.separator + "123.apk");
-        UploadUtils.upload("wisdomZZInter/login/uploadApk.do", file, new ProgressListener<ResponseBody>() {
+        UploadUtils.upload("/Upload/upload.do", file, new ProgressListener<ResponseBody>() {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {

@@ -30,7 +30,7 @@ public class UploadUtils {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.51:8000/")
+                .baseUrl("http://192.168.122.137:8080/")
                 .client(httpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
