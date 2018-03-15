@@ -5,6 +5,7 @@ import android.app.Application;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.hnkeystone.rxandroid.library.http.RetrofitUtils;
+import com.mob.MobSDK;
 
 /*********************************************
  ***      Copyright (C) 2017               
@@ -29,6 +30,8 @@ public class Lication extends Application {
                 .isDebug(true)  //设置日志输出
                 .setContext(this)
                 .init();
+
+        MobSDK.init(this);
 
     }
 

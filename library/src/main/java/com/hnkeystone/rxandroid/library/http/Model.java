@@ -1,5 +1,7 @@
 package com.hnkeystone.rxandroid.library.http;
 
+import java.io.Serializable;
+
 /*********************************************
  ***      Copyright (C) 2017               
  ***      河南坚磐电子科技有限公司        
@@ -9,13 +11,15 @@ package com.hnkeystone.rxandroid.library.http;
  **       2018/2/26.                        
  *********************************************/
 
-public class Model {
+public class Model<T> implements Serializable{
 
     private String statusCode;
 
     private String message;
 
-    private String model;
+    private T model;
+
+    private int code;
 
     public String getStatusCode() {
         return statusCode;
@@ -33,12 +37,20 @@ public class Model {
         this.message = message;
     }
 
-    public String getModel() {
+    public T getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(T model) {
         this.model = model;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     @Override
@@ -46,7 +58,8 @@ public class Model {
         return "Model{" +
                 "statusCode='" + statusCode + '\'' +
                 ", message='" + message + '\'' +
-                ", model='" + model + '\'' +
+                ", model=" + model +
+                ", code=" + code +
                 '}';
     }
 }
